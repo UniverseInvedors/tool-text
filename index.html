@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Text Tools — Word Counter, Case Converter, Lorem Ipsum, Diff Checker, Line Tools | Universe Invedors</title>
+<meta name="description" content="Free online text tools. Word and character counter, case converter (UPPER, lower, Title, camelCase, snake_case), Lorem ipsum generator, text diff checker, line sorter, duplicate remover."/>
+<meta name="keywords" content="word counter online,character counter,case converter,lorem ipsum generator,text diff checker,line sorter,remove duplicate lines,free text tools"/>
+<link rel="canonical" href="https://text.universeinvedors.tech/"/>
+<meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large"/>
+<meta name="author" content="Universe Invedors"/>
+<meta property="og:title" content="Text Tools — Word Counter, Case Converter, Lorem Ipsum, Diff"/><meta property="og:url" content="https://text.universeinvedors.tech/"/><meta property="og:type" content="website"/><meta property="og:image" content="https://universeinvedors.tech/og-image.jpg"/><meta property="og:site_name" content="Universe Invedors Tools"/>
+<meta name="twitter:card" content="summary_large_image"/><meta name="twitter:image" content="https://universeinvedors.tech/og-image.jpg"/>
+<link rel="sitemap" type="application/xml" href="/sitemap.xml"/><link rel="icon" href="https://universeinvedors.tech/favicon.ico" sizes="any"/>
+<meta name="theme-color" content="#090c13"/>
+<meta name="google-adsense-account" content="ca-pub-8759032363251002"/>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8759032363251002" crossorigin="anonymous"></script>
+<script type="application/ld+json">[{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Text Tools","url":"https://text.universeinvedors.tech","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@type":"Organization","name":"Universe Invedors","url":"https://universeinvedors.tech"}},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Universe Invedors","item":"https://universeinvedors.tech"},{"@type":"ListItem","position":2,"name":"Tools","item":"https://universeinvedors.tech/tools"},{"@type":"ListItem","position":3,"name":"Text Tools","item":"https://text.universeinvedors.tech"}]}]</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#090c13;--surf:#0d1117;--elev:#141b28;--card:#1a2235;--inp:#111827;--t1:#f0f4ff;--t2:#a8b5cc;--t3:#64748b;--t4:#3d4f6e;--acc:#06b6d4;--acc-h:#22d3ee;--acc-glow:rgba(6,182,212,.22);--green:#10b981;--border:rgba(255,255,255,.07);--bh:rgba(255,255,255,.13);--font:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;--mono:'JetBrains Mono',Consolas,monospace;--r:8px;--th:50px;--tr:160ms cubic-bezier(.4,0,.2,1)}
+html{font-size:16px}body{font-family:var(--font);background:var(--bg);color:var(--t1);min-height:100dvh;display:flex;flex-direction:column;-webkit-font-smoothing:antialiased}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:3px}
+.topbar{height:var(--th);background:rgba(9,12,19,.97);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.5rem;padding:0 .75rem;flex-shrink:0;position:sticky;top:0;z-index:200}
+.logo{font-size:.82rem;font-weight:700;color:var(--t1);text-decoration:none;white-space:nowrap;display:flex;align-items:center;gap:.4rem}.logo:hover{color:var(--acc-h);text-decoration:none}
+.etabs{display:flex;gap:.1rem;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:var(--r);padding:3px;overflow-x:auto;flex-shrink:1}
+.et{padding:.26rem .65rem;border-radius:6px;font-size:.72rem;font-weight:600;cursor:pointer;border:none;background:transparent;color:var(--t3);white-space:nowrap;transition:all var(--tr)}.et:hover{background:rgba(255,255,255,.06);color:var(--t2)}.et.active{background:var(--acc);color:#000;box-shadow:0 0 10px var(--acc-glow)}
+.sp{flex:1}
+.btn{display:inline-flex;align-items:center;gap:.35rem;padding:.32rem .75rem;border-radius:var(--r);font-size:.73rem;font-weight:600;cursor:pointer;border:none;transition:all var(--tr);white-space:nowrap}
+.bg{background:rgba(255,255,255,.05);color:var(--t2);border:1px solid var(--border)}.bg:hover{background:rgba(255,255,255,.09);border-color:var(--bh);color:var(--t1)}
+.bp{background:var(--acc);color:#000}.bp:hover{background:var(--acc-h)}
+.bsm{padding:.22rem .55rem;font-size:.68rem}
+.container{max-width:800px;margin:0 auto;padding:1.25rem 1rem;flex:1;width:100%}
+.panel{display:none}.panel.active{display:block}
+.card{background:var(--surf);border:1px solid var(--border);border-radius:14px;padding:1.25rem;margin-bottom:1.25rem}
+.card-title{font-size:.95rem;font-weight:700;margin-bottom:.35rem}
+.card-sub{font-size:.78rem;color:var(--t2);margin-bottom:1rem;line-height:1.5}
+textarea{width:100%;padding:.65rem .85rem;background:var(--inp);border:1px solid var(--border);border-radius:var(--r);color:var(--t1);font-size:.88rem;font-family:var(--font);resize:vertical;outline:none;min-height:120px;line-height:1.55;transition:border-color var(--tr)}
+textarea:focus{border-color:rgba(6,182,212,.45)}
+.fl{font-size:.72rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--t3);margin-bottom:.3rem;display:block}
+.fi{width:100%;padding:.42rem .65rem;background:var(--inp);border:1px solid var(--border);border-radius:var(--r);color:var(--t1);font-size:.82rem;outline:none;margin-bottom:.55rem}
+/* Stats */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:.5rem;margin-top:.75rem}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:.65rem;text-align:center}
+.stat-val{font-size:1.4rem;font-weight:800;color:var(--acc-h);letter-spacing:-.02em}
+.stat-lbl{font-size:.68rem;color:var(--t3);margin-top:.15rem}
+/* Case buttons */
+.case-btns{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:.35rem;margin-top:.65rem}
+.case-btn{padding:.5rem .6rem;border-radius:var(--r);border:1px solid var(--border);background:var(--card);color:var(--t2);font-size:.76rem;font-weight:600;cursor:pointer;text-align:center;transition:all var(--tr)}
+.case-btn:hover{background:rgba(6,182,212,.08);border-color:rgba(6,182,212,.3);color:var(--t1)}
+/* Diff */
+.diff-line{font-family:var(--mono);font-size:.78rem;padding:.1rem .5rem;white-space:pre-wrap;word-break:break-all}
+.diff-add{background:rgba(16,185,129,.1);color:#34d399;border-left:3px solid var(--green)}
+.diff-del{background:rgba(239,68,68,.1);color:#f87171;border-left:3px solid #f87171}
+.diff-same{color:var(--t3)}
+.seo-footer{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.3rem .75rem;padding:.35rem .75rem;border-top:1px solid var(--border);background:var(--surf);font-size:.65rem;color:var(--t3)}
+.seo-footer a{color:var(--t3)}.seo-footer a:hover{color:var(--t2);text-decoration:none}.sf-links{display:flex;flex-wrap:wrap;gap:.2rem .6rem}
+.toasts{position:fixed;bottom:2.5rem;right:1rem;z-index:999;display:flex;flex-direction:column;gap:.4rem;pointer-events:none}
+.toast{padding:.5rem .85rem;border-radius:var(--r);font-size:.75rem;font-weight:600;background:var(--card);border:1px solid var(--border);color:var(--t1);box-shadow:0 6px 24px rgba(0,0,0,.5);animation:tin .2s ease}
+.toast.ok{border-color:rgba(16,185,129,.35);color:var(--green)}.toast.err{border-color:rgba(239,68,68,.35);color:#f87171}.toast.info{border-color:rgba(6,182,212,.35);color:var(--acc-h)}
+@keyframes tin{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <a href="https://universeinvedors.tech/tools" class="logo">📝 <span style="color:var(--acc-h)">Text Tools</span></a>
+  <div class="etabs">
+    <button class="et active" id="et-count" onclick="setPanel('count')">🔢 Counter</button>
+    <button class="et" id="et-case" onclick="setPanel('case')">🔠 Case</button>
+    <button class="et" id="et-lorem" onclick="setPanel('lorem')">📜 Lorem</button>
+    <button class="et" id="et-diff" onclick="setPanel('diff')">🔍 Diff</button>
+    <button class="et" id="et-lines" onclick="setPanel('lines')">📐 Lines</button>
+  </div>
+  <div class="sp"></div><span style="font-size:.67rem;color:var(--t4)">Free · No sign-up</span>
+</header>
+<div class="container">
+  <!-- COUNTER -->
+  <div id="panel-count" class="panel active">
+    <div class="card">
+      <div class="card-title">🔢 Word & Character Counter</div>
+      <div class="card-sub">Real-time statistics for any text. Words, characters, sentences, paragraphs, reading time and keyword density.</div>
+      <textarea id="count-input" oninput="updateCount()" placeholder="Paste or type your text here..." style="min-height:200px"></textarea>
+      <div class="stats-grid" id="count-stats"></div>
+      <div style="margin-top:.85rem">
+        <div class="card-title" style="font-size:.82rem;margin-bottom:.4rem">Top Keywords</div>
+        <div id="count-keywords" style="display:flex;flex-wrap:wrap;gap:.3rem"></div>
+      </div>
+    </div>
+  </div>
+  <!-- CASE -->
+  <div id="panel-case" class="panel">
+    <div class="card">
+      <div class="card-title">🔠 Case Converter</div>
+      <div class="card-sub">Convert text between UPPER, lower, Title, camelCase, snake_case, kebab-case, Sentence case, and more.</div>
+      <textarea id="case-input" oninput="updateCasePreview()" placeholder="Type or paste text to convert..." style="min-height:100px"></textarea>
+      <div class="case-btns">
+        <div class="case-btn" onclick="convertCase('upper')">UPPERCASE</div>
+        <div class="case-btn" onclick="convertCase('lower')">lowercase</div>
+        <div class="case-btn" onclick="convertCase('title')">Title Case</div>
+        <div class="case-btn" onclick="convertCase('sentence')">Sentence case</div>
+        <div class="case-btn" onclick="convertCase('camel')">camelCase</div>
+        <div class="case-btn" onclick="convertCase('pascal')">PascalCase</div>
+        <div class="case-btn" onclick="convertCase('snake')">snake_case</div>
+        <div class="case-btn" onclick="convertCase('kebab')">kebab-case</div>
+        <div class="case-btn" onclick="convertCase('constant')">CONSTANT_CASE</div>
+        <div class="case-btn" onclick="convertCase('alternate')">aLtErNaTiNg</div>
+        <div class="case-btn" onclick="convertCase('reverse')">esrever</div>
+        <div class="case-btn" onclick="convertCase('capitalize')">Capitalize Each Word</div>
+      </div>
+      <textarea id="case-output" readonly style="margin-top:.65rem;min-height:100px" placeholder="Converted text appears here..."></textarea>
+      <div style="display:flex;gap:.4rem;margin-top:.5rem">
+        <button class="btn bp bsm" onclick="copyCaseResult()">📋 Copy Result</button>
+        <button class="btn bg bsm" onclick="clearCase()">Clear</button>
+      </div>
+    </div>
+  </div>
+  <!-- LOREM IPSUM -->
+  <div id="panel-lorem" class="panel">
+    <div class="card">
+      <div class="card-title">📜 Lorem Ipsum Generator</div>
+      <div class="card-sub">Generate placeholder text in paragraphs, sentences, or words.</div>
+      <div style="display:flex;gap:.65rem;align-items:flex-end;flex-wrap:wrap;margin-bottom:.65rem">
+        <div style="flex:1;min-width:100px"><label class="fl">Type</label>
+          <select class="fi" id="lorem-type" style="margin-bottom:0">
+            <option value="paragraphs">Paragraphs</option><option value="sentences">Sentences</option><option value="words">Words</option>
+          </select>
+        </div>
+        <div style="flex:1;min-width:80px"><label class="fl">Count</label><input type="number" class="fi" id="lorem-count" value="3" min="1" max="100" style="margin-bottom:0"></div>
+        <div style="flex:1;min-width:120px"><label class="fl">Start with Lorem?</label>
+          <select class="fi" id="lorem-start" style="margin-bottom:0"><option value="yes">Yes (classic)</option><option value="no">No (random)</option></select>
+        </div>
+        <button class="btn bp bsm" onclick="generateLorem()" style="margin-bottom:0">Generate</button>
+      </div>
+      <textarea id="lorem-output" readonly style="min-height:200px" placeholder="Generated text appears here..."></textarea>
+      <div style="display:flex;gap:.4rem;margin-top:.5rem">
+        <button class="btn bp bsm" onclick="copyLorem()">📋 Copy</button>
+        <button class="btn bg bsm" onclick="document.getElementById('lorem-output').value=''">Clear</button>
+      </div>
+    </div>
+  </div>
+  <!-- DIFF -->
+  <div id="panel-diff" class="panel">
+    <div class="card">
+      <div class="card-title">🔍 Text Diff Checker</div>
+      <div class="card-sub">Compare two blocks of text and see the differences line by line.</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.65rem;margin-bottom:.65rem">
+        <div><label class="fl">Original text</label><textarea id="diff-1" style="min-height:150px" placeholder="Original text..."></textarea></div>
+        <div><label class="fl">Modified text</label><textarea id="diff-2" style="min-height:150px" placeholder="Modified text..."></textarea></div>
+      </div>
+      <button class="btn bp bsm" onclick="runDiff()">🔍 Compare</button>
+      <div id="diff-result" style="margin-top:.85rem;border:1px solid var(--border);border-radius:var(--r);background:var(--bg);padding:.65rem;min-height:100px;max-height:400px;overflow-y:auto"></div>
+    </div>
+  </div>
+  <!-- LINES -->
+  <div id="panel-lines" class="panel">
+    <div class="card">
+      <div class="card-title">📐 Line Tools</div>
+      <div class="card-sub">Sort, deduplicate, filter, reverse, and transform lines of text.</div>
+      <textarea id="lines-input" placeholder="Paste text with multiple lines..." style="min-height:150px"></textarea>
+      <div style="display:flex;flex-wrap:wrap;gap:.35rem;margin:.65rem 0">
+        <button class="btn bg bsm" onclick="lineOp('sort-asc')">Sort A→Z</button>
+        <button class="btn bg bsm" onclick="lineOp('sort-desc')">Sort Z→A</button>
+        <button class="btn bg bsm" onclick="lineOp('dedup')">Remove duplicates</button>
+        <button class="btn bg bsm" onclick="lineOp('reverse')">Reverse order</button>
+        <button class="btn bg bsm" onclick="lineOp('trim')">Trim whitespace</button>
+        <button class="btn bg bsm" onclick="lineOp('remove-empty')">Remove empty lines</button>
+        <button class="btn bg bsm" onclick="lineOp('number')">Add line numbers</button>
+        <button class="btn bg bsm" onclick="lineOp('shuffle')">Shuffle</button>
+      </div>
+      <textarea id="lines-output" readonly style="min-height:150px" placeholder="Result appears here..."></textarea>
+      <div style="display:flex;gap:.4rem;margin-top:.5rem">
+        <button class="btn bp bsm" onclick="copyLines()">📋 Copy</button>
+        <button class="btn bg bsm" onclick="clearLines()">Clear</button>
+      </div>
+    </div>
+  </div>
+</div>
+<footer class="seo-footer">
+  <div class="sf-links">
+    <a href="https://universeinvedors.tech">Universe Invedors</a><a href="https://universeinvedors.tech/tools">All Tools</a>
+    <a href="https://calc.universeinvedors.tech">Calculators</a><a href="https://json.universeinvedors.tech">JSON</a>
+    <a href="https://qr.universeinvedors.tech">QR Code</a><a href="https://color.universeinvedors.tech">Colors</a>
+    <a href="https://code.universeinvedors.tech">Code</a><a href="https://diagram.universeinvedors.tech">Diagrams</a>
+    <a href="https://chart.universeinvedors.tech">Charts</a><a href="https://ocr.universeinvedors.tech">OCR</a>
+    <a href="https://pdf.universeinvedors.tech">PDF</a><a href="https://image.universeinvedors.tech">Image</a>
+    <a href="https://3d.universeinvedors.tech">3D</a><a href="https://map.universeinvedors.tech">Maps</a><a href="https://media.universeinvedors.tech">Media</a>
+  </div>
+  <span>© 2024 Universe Invedors · Text Tools · Free · No sign-up</span>
+</footer>
+<div class="toasts" id="toasts"></div>
+<script>
+function setPanel(name){
+  document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('active')})
+  document.querySelectorAll('.et').forEach(function(t){t.classList.remove('active')})
+  document.getElementById('panel-'+name).classList.add('active')
+  document.getElementById('et-'+name).classList.add('active')
+}
+function toast(msg,type){var e=document.createElement('div');e.className='toast'+(type?' '+type:'');e.textContent=msg;document.getElementById('toasts').appendChild(e);setTimeout(function(){e.remove()},2800)}
+
+// COUNTER
+function updateCount(){
+  var text=document.getElementById('count-input').value
+  var words=text.trim()?text.trim().split(/\s+/).length:0
+  var chars=text.length
+  var charsNoSpace=text.replace(/\s/g,'').length
+  var sentences=text.split(/[.!?]+/).filter(function(s){return s.trim()}).length
+  var paragraphs=text.split(/\n\n+/).filter(function(p){return p.trim()}).length
+  var lines=text.split('\n').length
+  var readTime=Math.ceil(words/200)
+  var speakTime=Math.ceil(words/130)
+  var stats=[
+    {v:words,l:'Words'},{v:chars,l:'Characters'},{v:charsNoSpace,l:'No spaces'},
+    {v:sentences,l:'Sentences'},{v:paragraphs,l:'Paragraphs'},{v:lines,l:'Lines'},
+    {v:readTime+'m',l:'Reading time'},{v:speakTime+'m',l:'Speaking time'},
+  ]
+  document.getElementById('count-stats').innerHTML=stats.map(function(s){
+    return'<div class="stat-card"><div class="stat-val">'+s.v+'</div><div class="stat-lbl">'+s.l+'</div></div>'
+  }).join('')
+  // Keywords
+  var wordList=text.toLowerCase().match(/\b[a-z]{3,}\b/g)||[]
+  var freq={}
+  wordList.forEach(function(w){if(!STOPWORDS.includes(w)){freq[w]=(freq[w]||0)+1}})
+  var top=Object.entries(freq).sort(function(a,b){return b[1]-a[1]}).slice(0,10)
+  document.getElementById('count-keywords').innerHTML=top.map(function(w){
+    return'<span style="padding:.2rem .55rem;background:var(--card);border:1px solid var(--border);border-radius:6px;font-size:.72rem;color:var(--t2)">'+w[0]+' <span style="color:var(--acc-h);font-weight:700">'+w[1]+'</span></span>'
+  }).join('')||'<span style="font-size:.75rem;color:var(--t4)">No keywords yet</span>'
+}
+var STOPWORDS=['the','and','for','are','but','not','you','all','can','had','her','was','one','our','out','day','get','has','him','his','how','man','new','now','old','see','two','way','who','its','let','put','say','she','too','use','with','this','that','from','they','have','were','what','when','your','them','then','than','will','would','could','about','which','their','other','there','into','been','more','only','some','such','these','those','also','just','very','much','well','even','still','back','most','made','over','down','after','each','make','like','take','come','here','give','many','most']
+
+// CASE
+function convertCase(type){
+  var text=document.getElementById('case-input').value
+  if(!text){toast('Type something first','err');return}
+  var result=''
+  switch(type){
+    case 'upper':result=text.toUpperCase();break
+    case 'lower':result=text.toLowerCase();break
+    case 'title':result=text.replace(/\w\S*/g,function(t){return t.charAt(0).toUpperCase()+t.slice(1).toLowerCase()});break
+    case 'sentence':result=text.toLowerCase().replace(/(^\s*\w|[.!?]\s*\w)/g,function(c){return c.toUpperCase()});break
+    case 'camel':result=text.toLowerCase().replace(/[^a-zA-Z0-9]+(.)/g,function(_,c){return c.toUpperCase()});result=result.charAt(0).toLowerCase()+result.slice(1);break
+    case 'pascal':result=text.toLowerCase().replace(/(?:^|[^a-zA-Z0-9]+)(.)/g,function(_,c){return c.toUpperCase()});break
+    case 'snake':result=text.trim().toLowerCase().replace(/[^a-z0-9]+/g,'_').replace(/^_|_$/g,'');break
+    case 'kebab':result=text.trim().toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');break
+    case 'constant':result=text.trim().toUpperCase().replace(/[^A-Z0-9]+/g,'_').replace(/^_|_$/g,'');break
+    case 'alternate':result=text.split('').map(function(c,i){return i%2===0?c.toLowerCase():c.toUpperCase()}).join('');break
+    case 'reverse':result=text.split('').reverse().join('');break
+    case 'capitalize':result=text.replace(/\b\w/g,function(c){return c.toUpperCase()});break
+  }
+  document.getElementById('case-output').value=result
+  toast('Converted to '+type,'ok')
+}
+function updateCasePreview(){}  // no-op, conversion happens on button click
+function copyCaseResult(){navigator.clipboard.writeText(document.getElementById('case-output').value).then(function(){toast('Copied','ok')})}
+function clearCase(){document.getElementById('case-input').value='';document.getElementById('case-output').value=''}
+
+// LOREM
+var LOREM_WORDS=['lorem','ipsum','dolor','sit','amet','consectetur','adipiscing','elit','sed','do','eiusmod','tempor','incididunt','ut','labore','et','dolore','magna','aliqua','enim','ad','minim','veniam','quis','nostrud','exercitation','ullamco','laboris','nisi','aliquip','ex','ea','commodo','consequat','duis','aute','irure','in','reprehenderit','voluptate','velit','esse','cillum','eu','fugiat','nulla','pariatur','excepteur','sint','occaecat','cupidatat','non','proident','sunt','culpa','qui','officia','deserunt','mollit','anim','id','est','laborum']
+function generateLorem(){
+  var type=document.getElementById('lorem-type').value
+  var count=parseInt(document.getElementById('lorem-count').value)||3
+  var startClassic=document.getElementById('lorem-start').value==='yes'
+  var result=[]
+  if(type==='paragraphs'){
+    for(var p=0;p<count;p++){
+      var sentences=3+Math.floor(Math.random()*4)
+      var para=[]
+      for(var s=0;s<sentences;s++){
+        var words=8+Math.floor(Math.random()*12)
+        var sentence=[]
+        for(var w=0;w<words;w++)sentence.push(LOREM_WORDS[Math.floor(Math.random()*LOREM_WORDS.length)])
+        var sText=sentence.join(' ')
+        if(p===0&&s===0&&startClassic)sText='Lorem ipsum dolor sit amet, consectetur adipiscing elit'
+        para.push(sText.charAt(0).toUpperCase()+sText.slice(1)+'.')
+      }
+      result.push(para.join(' '))
+    }
+  }else if(type==='sentences'){
+    for(var s=0;s<count;s++){
+      var words=8+Math.floor(Math.random()*12),sentence=[]
+      for(var w=0;w<words;w++)sentence.push(LOREM_WORDS[Math.floor(Math.random()*LOREM_WORDS.length)])
+      var sText=sentence.join(' ')
+      if(s===0&&startClassic)sText='Lorem ipsum dolor sit amet, consectetur adipiscing elit'
+      result.push(sText.charAt(0).toUpperCase()+sText.slice(1)+'.')
+    }
+  }else{
+    for(var w=0;w<count;w++)result.push(LOREM_WORDS[Math.floor(Math.random()*LOREM_WORDS.length)])
+    if(startClassic)result=['Lorem','ipsum','dolor','sit','amet'].concat(result.slice(5))
+  }
+  document.getElementById('lorem-output').value=result.join(type==='paragraphs'?'\n\n':' ')
+  toast(count+' '+type+' generated','ok')
+}
+function copyLorem(){navigator.clipboard.writeText(document.getElementById('lorem-output').value).then(function(){toast('Copied','ok')})}
+
+// DIFF
+function runDiff(){
+  var t1=document.getElementById('diff-1').value.split('\n')
+  var t2=document.getElementById('diff-2').value.split('\n')
+  var result=[],i1=0,i2=0
+  while(i1<t1.length||i2<t2.length){
+    if(i1<t1.length&&i2<t2.length){
+      if(t1[i1]===t2[i2]){result.push({type:'same',text:t1[i1]});i1++;i2++}
+      else{
+        // Look ahead for match
+        var found=false
+        for(var look=1;look<3;look++){
+          if(i1+look<t1.length&&t1[i1+look]===t2[i2]){for(var k=0;k<look;k++){result.push({type:'del',text:t1[i1+k]})};i1+=look;found=true;break}
+          if(i2+look<t2.length&&t1[i1]===t2[i2+look]){for(var k=0;k<look;k++){result.push({type:'add',text:t2[i2+k]})};i2+=look;found=true;break}
+        }
+        if(!found){result.push({type:'del',text:t1[i1]});result.push({type:'add',text:t2[i2]});i1++;i2++}
+      }
+    }else if(i1<t1.length){result.push({type:'del',text:t1[i1++]})}
+    else{result.push({type:'add',text:t2[i2++]})}
+  }
+  var html=result.map(function(l){
+    var cls=l.type==='add'?'diff-add':l.type==='del'?'diff-del':'diff-same'
+    var prefix=l.type==='add'?'+ ':l.type==='del'?'- ':'  '
+    return'<div class="diff-line '+cls+'">'+prefix+l.text+'</div>'
+  }).join('')
+  document.getElementById('diff-result').innerHTML=html||'<p style="color:var(--t4);padding:1rem">No differences found ✓</p>'
+  toast('Diff complete','ok')
+}
+
+// LINES
+function lineOp(op){
+  var text=document.getElementById('lines-input').value
+  if(!text){toast('Paste text first','err');return}
+  var lines=text.split('\n'),result
+  switch(op){
+    case 'sort-asc':result=lines.sort();break
+    case 'sort-desc':result=lines.sort().reverse();break
+    case 'dedup':result=[...new Set(lines)];break
+    case 'reverse':result=lines.reverse();break
+    case 'trim':result=lines.map(function(l){return l.trim()});break
+    case 'remove-empty':result=lines.filter(function(l){return l.trim()});break
+    case 'number':result=lines.map(function(l,i){return (i+1)+'. '+l});break
+    case 'shuffle':result=lines.map(function(v){return{v,v:Math.random()}}).sort(function(a,b){return a.v-b.v}).map(function(o){return o.v});break
+    default:result=lines
+  }
+  document.getElementById('lines-output').value=result.join('\n')
+  toast(op+' applied','ok')
+}
+function copyLines(){navigator.clipboard.writeText(document.getElementById('lines-output').value).then(function(){toast('Copied','ok')})}
+function clearLines(){document.getElementById('lines-input').value='';document.getElementById('lines-output').value=''}
+
+// Init
+updateCount()
+</script>
+</body>
+</html>
