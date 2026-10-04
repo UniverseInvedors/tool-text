@@ -14,6 +14,13 @@
 <meta name="theme-color" content="#090c13"/>
 <meta name="google-adsense-account" content="ca-pub-8759032363251002"/>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8759032363251002" crossorigin="anonymous"></script>
+<!-- Google Analytics 4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3GH7524RVW"></script>
+<script>
+window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
+gtag('js',new Date());gtag('config','G-3GH7524RVW',{page_title:document.title,page_location:location.href});
+function gaEvent(action,category,label,value){gtag('event',action,{event_category:category,event_label:label,value:value});}
+</script>
 <script type="application/ld+json">[{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Text Tools","url":"https://text.universeinvedors.tech","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@type":"Organization","name":"Universe Invedors","url":"https://universeinvedors.tech"}},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Universe Invedors","item":"https://universeinvedors.tech"},{"@type":"ListItem","position":2,"name":"Tools","item":"https://universeinvedors.tech/tools"},{"@type":"ListItem","position":3,"name":"Text Tools","item":"https://text.universeinvedors.tech"}]}]</script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -344,5 +351,43 @@ function clearLines(){document.getElementById('lines-input').value='';document.g
 // Init
 updateCount()
 </script>
+<script>
+// GA4 Custom Events — Text Tools
+(function(){
+  // Track which text tool tab is active — key insight
+  document.querySelectorAll('.tab,.et').forEach(function(tab){
+    tab.addEventListener('click',function(){
+      gaEvent('text_tool_used','Text Tools',this.textContent.trim());
+    });
+  });
+  // Track case conversions
+  document.querySelectorAll('.case-btn, [onclick*="case"],[onclick*="Case"]').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      gaEvent('case_converted','Text Tools',this.textContent.trim());
+    });
+  });
+  // Track copy actions
+  document.querySelectorAll('[onclick*="copy"],[onclick*="Copy"]').forEach(function(btn){
+    btn.addEventListener('click',function(){gaEvent('text_copied','Text Tools','output');});
+  });
+  // Track diff checks — high intent action
+  document.querySelectorAll('button').forEach(function(btn){
+    var t=btn.textContent.trim().toLowerCase();
+    if(t.includes('diff')||t.includes('compar')){
+      btn.addEventListener('click',function(){gaEvent('diff_checked','Text Tools','text_diff');});
+    }
+  });
+  // Word counter input engagement — track after user types >50 chars
+  var wcTimer;
+  document.querySelectorAll('textarea').forEach(function(ta){
+    ta.addEventListener('input',function(){
+      clearTimeout(wcTimer);
+      wcTimer=setTimeout(function(){
+        if(ta.value.length>50) gaEvent('text_analyzed','Text Tools','word_counter');
+      },2000);
+    });
+  });
+})();
+</script>
 </body>
-</html>
+</html>>
