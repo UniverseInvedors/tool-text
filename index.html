@@ -11,6 +11,7 @@
 <meta property="og:title" content="Text Tools — Word Counter, Case Converter, Lorem Ipsum, Diff"/><meta property="og:url" content="https://text.universeinvedors.tech/"/><meta property="og:type" content="website"/><meta property="og:image" content="https://universeinvedors.tech/og-image.jpg"/><meta property="og:site_name" content="Universe Invedors Tools"/>
 <meta name="twitter:card" content="summary_large_image"/><meta name="twitter:image" content="https://universeinvedors.tech/og-image.jpg"/>
 <link rel="sitemap" type="application/xml" href="/sitemap.xml"/><link rel="icon" href="https://universeinvedors.tech/favicon.ico" sizes="any"/>
+<link rel="manifest" href="/manifest.json"/>
 <meta name="theme-color" content="#090c13"/>
 <meta name="google-adsense-account" content="ca-pub-8759032363251002"/>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8759032363251002" crossorigin="anonymous"></script>
@@ -111,13 +112,14 @@ input[type=range]{accent-color:var(--accent);width:100%}
   </a>
   <div class="topbar-sep"></div>
   <div class="etabs">
-    <button class="et active" id="et-count" onclick="setPanel('count')">🔢 Counter</button>
-    <button class="et" id="et-case" onclick="setPanel('case')">🔠 Case</button>
-    <button class="et" id="et-lorem" onclick="setPanel('lorem')">📜 Lorem</button>
-    <button class="et" id="et-diff" onclick="setPanel('diff')">🔍 Diff</button>
-    <button class="et" id="et-lines" onclick="setPanel('lines')">📐 Lines</button>
+    <button class="et active" id="et-count" onclick="setPanel('count')">Counter</button>
+    <button class="et" id="et-case" onclick="setPanel('case')">Case</button>
+    <button class="et" id="et-lorem" onclick="setPanel('lorem')">Lorem</button>
+    <button class="et" id="et-diff" onclick="setPanel('diff')">Diff</button>
+    <button class="et" id="et-find" onclick="setPanel('find')">Find &amp; Replace</button>
+    <button class="et" id="et-lines" onclick="setPanel('lines')">Lines</button>
   </div>
-  <div class="sp"></div><span style="font-size:.67rem;color:var(--t4)">Free · No sign-up</span>
+  <div class="sp"></div><span class="badge-free">Free</span>
 </header>
 <div class="container">
   <!-- COUNTER -->
@@ -130,6 +132,12 @@ input[type=range]{accent-color:var(--accent);width:100%}
       <div style="margin-top:.85rem">
         <div class="card-title" style="font-size:.82rem;margin-bottom:.4rem">Top Keywords</div>
         <div id="count-keywords" style="display:flex;flex-wrap:wrap;gap:.3rem"></div>
+      </div>
+      <div style="display:flex;gap:.4rem;margin-top:.85rem">
+        <button class="btn bg bsm" onclick="exportCount('txt')">Export .txt</button>
+        <button class="btn bg bsm" onclick="exportCount('md')">Export .md</button>
+                <button class="btn bg bsm" onclick="sendToPDF()">Open in PDF Suite</button>
+        <button class="btn bg bsm" onclick="navigator.clipboard.writeText(document.getElementById('count-input').value).then(function(){toast('Copied','ok')})">Copy text</button>
       </div>
     </div>
   </div>
@@ -197,6 +205,43 @@ input[type=range]{accent-color:var(--accent);width:100%}
       <div id="diff-result" style="margin-top:.85rem;border:1px solid var(--border);border-radius:var(--r);background:var(--bg);padding:.65rem;min-height:100px;max-height:400px;overflow-y:auto"></div>
     </div>
   </div>
+  <!-- FIND & REPLACE -->
+  <div id="panel-find" class="panel">
+    <div class="card">
+      <div class="card-title">Find &amp; Replace</div>
+      <div class="card-sub">Search and replace text with optional regex support and case sensitivity control.</div>
+      <div class="field-row">
+        <div class="field" style="flex:2">
+          <label class="field-label">Find</label>
+          <input type="text" id="fr-find" placeholder="Search text or regex…"/>
+        </div>
+        <div class="field" style="flex:2">
+          <label class="field-label">Replace with</label>
+          <input type="text" id="fr-replace" placeholder="Replacement text (blank to delete)"/>
+        </div>
+      </div>
+      <div style="display:flex;gap:1rem;align-items:center;margin-bottom:.85rem">
+        <label style="display:flex;align-items:center;gap:.35rem;font-size:.8rem;cursor:pointer">
+          <input type="checkbox" id="fr-regex" style="width:auto;accent-color:var(--accent)"/> Regex
+        </label>
+        <label style="display:flex;align-items:center;gap:.35rem;font-size:.8rem;cursor:pointer">
+          <input type="checkbox" id="fr-case" style="width:auto;accent-color:var(--accent)"/> Case sensitive
+        </label>
+      </div>
+      <label class="field-label">Input text</label>
+      <textarea id="fr-input" placeholder="Paste text to search and replace…" style="min-height:130px"></textarea>
+      <div style="display:flex;gap:.4rem;margin:.6rem 0">
+        <button class="btn btn-primary bsm" onclick="findReplace()">Find &amp; Replace</button>
+        <span id="fr-count" style="font-size:.75rem;color:var(--text-3);line-height:1;align-self:center"></span>
+      </div>
+      <label class="field-label">Result</label>
+      <textarea id="fr-output" readonly style="min-height:130px" placeholder="Result appears here…"></textarea>
+      <div style="display:flex;gap:.4rem;margin-top:.5rem">
+        <button class="btn bg bsm" onclick="copyFR()">Copy result</button>
+      </div>
+    </div>
+  </div>
+
   <!-- LINES -->
   <div id="panel-lines" class="panel">
     <div class="card">
@@ -241,6 +286,14 @@ function setPanel(name){
   document.getElementById('panel-'+name).classList.add('active')
   document.getElementById('et-'+name).classList.add('active')
 }
+
+function sendToPDF(){
+  var text=document.getElementById('count-input').value.trim()
+  if(!text){toast('Paste text first','err');return}
+  localStorage.setItem('ui_pdf_text',text)
+  window.open('https://pdf.universeinvedors.tech?from=text','_blank')
+  toast('Opening PDF Suite�','ok')
+}
 function toast(msg,type){var e=document.createElement('div');e.className='toast'+(type?' '+type:'');e.textContent=msg;document.getElementById('toasts').appendChild(e);setTimeout(function(){e.remove()},2800)}
 
 // COUNTER
@@ -254,10 +307,17 @@ function updateCount(){
   var lines=text.split('\n').length
   var readTime=Math.ceil(words/200)
   var speakTime=Math.ceil(words/130)
+
+  // Flesch Reading Ease score
+  var syllables=countSyllables(text)
+  var fre=words>0&&sentences>0?Math.round(206.835-1.015*(words/sentences)-84.6*(syllables/words)):0
+  var freLabel=fre>=90?'Very Easy':fre>=80?'Easy':fre>=70?'Fairly Easy':fre>=60?'Standard':fre>=50?'Fairly Difficult':fre>=30?'Difficult':'Very Confusing'
+
   var stats=[
-    {v:words,l:'Words'},{v:chars,l:'Characters'},{v:charsNoSpace,l:'No spaces'},
+    {v:words,l:'Words'},{v:chars,l:'Characters'},{v:charsNoSpace,l:'No Spaces'},
     {v:sentences,l:'Sentences'},{v:paragraphs,l:'Paragraphs'},{v:lines,l:'Lines'},
-    {v:readTime+'m',l:'Reading time'},{v:speakTime+'m',l:'Speaking time'},
+    {v:readTime+'m',l:'Read Time'},{v:speakTime+'m',l:'Speak Time'},
+    {v:words>0?fre:'-',l:'Flesch Score'},{v:words>0?freLabel:'-',l:'Reading Level'},
   ]
   document.getElementById('count-stats').innerHTML=stats.map(function(s){
     return'<div class="stat-card"><div class="stat-val">'+s.v+'</div><div class="stat-lbl">'+s.l+'</div></div>'
@@ -268,8 +328,25 @@ function updateCount(){
   wordList.forEach(function(w){if(!STOPWORDS.includes(w)){freq[w]=(freq[w]||0)+1}})
   var top=Object.entries(freq).sort(function(a,b){return b[1]-a[1]}).slice(0,10)
   document.getElementById('count-keywords').innerHTML=top.map(function(w){
-    return'<span style="padding:.2rem .55rem;background:var(--card);border:1px solid var(--border);border-radius:6px;font-size:.72rem;color:var(--t2)">'+w[0]+' <span style="color:var(--acc-h);font-weight:700">'+w[1]+'</span></span>'
-  }).join('')||'<span style="font-size:.75rem;color:var(--t4)">No keywords yet</span>'
+    return'<span style="display:inline-flex;align-items:center;gap:.3rem;padding:.2rem .55rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r-md);font-size:.72rem;cursor:pointer" onclick="copyText(\''+w[0]+'\')">'+w[0]+' <span style="color:var(--accent-light);font-weight:700">'+w[1]+'</span></span>'
+  }).join('')||'<span style="font-size:.75rem;color:var(--text-4)">Type something to see keyword frequency</span>'
+}
+
+function countSyllables(text){
+  var words=text.toLowerCase().match(/\b[a-z]+\b/g)||[]
+  return words.reduce(function(total,word){
+    word=word.replace(/e$/,'')
+    var count=(word.match(/[aeiou]{1,2}/g)||[]).length
+    return total+Math.max(1,count)
+  },0)
+}
+function copyText(t){navigator.clipboard.writeText(t).then(function(){toast('Copied: '+t,'ok')})}
+function exportCount(fmt){
+  var text=document.getElementById('count-input').value
+  if(!text.trim()){toast('Nothing to export','err');return}
+  var blob=new Blob([text],{type:fmt==='md'?'text/markdown':'text/plain'})
+  var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='text.'+(fmt==='md'?'md':'txt');a.click()
+  toast('Exported as .'+fmt,'ok')
 }
 var STOPWORDS=['the','and','for','are','but','not','you','all','can','had','her','was','one','our','out','day','get','has','him','his','how','man','new','now','old','see','two','way','who','its','let','put','say','she','too','use','with','this','that','from','they','have','were','what','when','your','them','then','than','will','would','could','about','which','their','other','there','into','been','more','only','some','such','these','those','also','just','very','much','well','even','still','back','most','made','over','down','after','each','make','like','take','come','here','give','many','most']
 
@@ -379,7 +456,7 @@ function lineOp(op){
     case 'trim':result=lines.map(function(l){return l.trim()});break
     case 'remove-empty':result=lines.filter(function(l){return l.trim()});break
     case 'number':result=lines.map(function(l,i){return (i+1)+'. '+l});break
-    case 'shuffle':result=lines.map(function(v){return{v,v:Math.random()}}).sort(function(a,b){return a.v-b.v}).map(function(o){return o.v});break
+    case 'shuffle':result=lines.map(function(l){return{line:l,sort:Math.random()}}).sort(function(a,b){return a.sort-b.sort}).map(function(o){return o.line});break
     default:result=lines
   }
   document.getElementById('lines-output').value=result.join('\n')
@@ -388,8 +465,55 @@ function lineOp(op){
 function copyLines(){navigator.clipboard.writeText(document.getElementById('lines-output').value).then(function(){toast('Copied','ok')})}
 function clearLines(){document.getElementById('lines-input').value='';document.getElementById('lines-output').value=''}
 
+// FIND & REPLACE
+function findReplace(){
+  var input=document.getElementById('fr-input').value
+  var find=document.getElementById('fr-find').value
+  var replace=document.getElementById('fr-replace').value
+  var useRegex=document.getElementById('fr-regex').checked
+  var caseSensitive=document.getElementById('fr-case').checked
+  if(!input){toast('Paste text first','err');return}
+  if(!find){toast('Enter search text','err');return}
+  var result,count=0
+  try{
+    if(useRegex){
+      var flags='g'+(caseSensitive?'':'i')
+      var re=new RegExp(find,flags)
+      var matches=input.match(re)
+      count=matches?matches.length:0
+      result=input.replace(re,replace)
+    }else{
+      var escaped=find.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')
+      var flags='g'+(caseSensitive?'':'i')
+      var re=new RegExp(escaped,flags)
+      var matches=input.match(re)
+      count=matches?matches.length:0
+      result=input.replace(re,replace)
+    }
+    document.getElementById('fr-output').value=result
+    document.getElementById('fr-count').textContent=count+' replacement'+(count!==1?'s':'')+' made'
+    toast(count+' replacement'+(count!==1?'s':'')+' made','ok')
+  }catch(e){
+    toast('Regex error: '+e.message.slice(0,40),'err')
+  }
+}
+function copyFR(){navigator.clipboard.writeText(document.getElementById('fr-output').value).then(function(){toast('Copied','ok')})}
+
 // Init
 updateCount()
+
+// Receive incoming data from other tools (OCR → Text, etc.)
+;(function(){
+  try{
+    var incoming=localStorage.getItem('ui_incoming_text')
+    if(incoming){
+      document.getElementById('count-input').value=incoming
+      localStorage.removeItem('ui_incoming_text')
+      updateCount()
+      toast('Text loaded from OCR Studio','ok')
+    }
+  }catch(e){}
+})()
 </script>
 <script>
 // GA4 Custom Events — Text Tools
@@ -428,6 +552,9 @@ updateCount()
     });
   });
 })();
+</script>
+<script>
+if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}
 </script>
 </body>
 </html>>

@@ -1,0 +1,35 @@
+﻿{
+    "description":  "Word counter, case converter, lorem ipsum, diff, find and replace.",
+    "short_name":  "Text",
+    "shortcuts":  [
+                      {
+                          "url":  "/",
+                          "name":  "Text Tools",
+                          "description":  "Word counter, case converter, lorem ipsum, diff, find and replace."
+                      }
+                  ],
+    "icons":  [
+                  {
+                      "type":  "image/png",
+                      "sizes":  "192x192",
+                      "src":  "/icons/icon-192.png"
+                  },
+                  {
+                      "purpose":  "maskable",
+                      "type":  "image/png",
+                      "sizes":  "512x512",
+                      "src":  "/icons/icon-512.png"
+                  }
+              ],
+    "theme_color":  "#06b6d4",
+    "display":  "standalone",
+    "name":  "Universe Invedors — Text Tools",
+    "categories":  [
+                       "productivity",
+                       "utilities",
+                       "developer tools"
+                   ],
+    "background_color":  "#03050a",
+    "start_url":  "/",
+    "orientation":  "any"
+}
