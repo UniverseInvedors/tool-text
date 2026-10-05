@@ -120,6 +120,7 @@ input[type=range]{accent-color:var(--accent);width:100%}
     <button class="et" id="et-lines" onclick="setPanel('lines')">Lines</button>
   </div>
   <div class="sp"></div><span class="badge-free">Free</span>
+  <button class="tour-btn" onclick="startTour()" aria-label="Start guided tour" title="Take a quick tour"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg> Tour</button>
 </header>
 <div class="container">
   <!-- COUNTER -->
@@ -556,6 +557,174 @@ updateCount()
 <script>
 if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}
 </script>
+
+<!-- -- Guided Tour ------------------------------------ -->
+<script>
+window.__TOUR_STEPS__ = [{sel:".topbar-logo",title:"Welcome to Text Tools",body:"A complete text workbench — word counter, case converter, lorem ipsum, diff checker, find & replace, and line tools.",tip:"bottom"},{sel:".etabs",title:"6 text operations",body:"Counter, Case, Lorem, Diff, Find & Replace, and Lines — each tab is a distinct workflow. Switch without losing your text.",tip:"bottom"},{sel:"#panel-count",title:"Word & Character Counter",body:"Paste any text and see real-time word count, character count, sentences, paragraphs, reading time, and Flesch readability score.",tip:"top"},{sel:".case-btns",title:"12 case conversions",body:"Convert to UPPER, lower, Title, camelCase, snake_case, kebab-case, CONSTANT_CASE and more — each with a single click.",tip:"top"},{sel:"#panel-find",title:"Find & Replace",body:"Search and replace with optional regex and case sensitivity. The replacement count shows exactly how many changes were made.",tip:"top"}];
+</script>
+<script>
+(function(){
+  'use strict';
+  var TOUR_KEY='ui_tour_'+(location.hostname.split('.')[0]||'tool');
+  var steps=window.__TOUR_STEPS__||[];
+  var current=0,active=false;
+  var overlay,tipEl;
+
+  function init(){
+    if(!steps.length)return;
+    overlay=document.createElement('div');
+    overlay.id='tour-overlay';
+    overlay.setAttribute('role','dialog');
+    overlay.setAttribute('aria-modal','true');
+    overlay.setAttribute('aria-label','Guided tour');
+
+    var svgNS='http://www.w3.org/2000/svg';
+    var svgEl=document.createElementNS(svgNS,'svg');
+    svgEl.id='tour-svg';
+    svgEl.style.cssText='position:fixed;inset:0;width:100%;height:100%;z-index:9001;pointer-events:none';
+    var defs=document.createElementNS(svgNS,'defs');
+    var clip=document.createElementNS(svgNS,'clipPath');
+    clip.id='tour-clip';
+    var outerR=document.createElementNS(svgNS,'rect');
+    outerR.setAttribute('width','200%');outerR.setAttribute('height','200%');
+    var holeR=document.createElementNS(svgNS,'rect');
+    holeR.id='tour-hole';
+    clip.appendChild(outerR);clip.appendChild(holeR);defs.appendChild(clip);
+    var dimR=document.createElementNS(svgNS,'rect');
+    dimR.setAttribute('width','200%');dimR.setAttribute('height','200%');
+    dimR.setAttribute('clip-path','url(#tour-clip)');
+    dimR.setAttribute('fill','rgba(3,5,10,0.78)');
+    var glowR=document.createElementNS(svgNS,'rect');
+    glowR.id='tour-glow';
+    glowR.setAttribute('fill','none');
+    glowR.setAttribute('stroke','rgba(59,130,246,0.55)');
+    glowR.setAttribute('stroke-width','2');
+    svgEl.appendChild(defs);svgEl.appendChild(dimR);svgEl.appendChild(glowR);
+    overlay.appendChild(svgEl);
+
+    tipEl=document.createElement('div');
+    tipEl.id='tour-tip';
+    tipEl.innerHTML=
+      '<div class="tour-progress"><div class="tour-progress-fill" id="tour-pfill"></div></div>'+
+      '<div class="tour-step-label" id="tour-slbl"></div>'+
+      '<div class="tour-tip-title" id="tour-ttl"></div>'+
+      '<div class="tour-tip-body" id="tour-tbdy"></div>'+
+      '<div class="tour-footer">'+
+        '<div class="tour-dots" id="tour-dots"></div>'+
+        '<div class="tour-nav">'+
+          '<button class="tour-nav-btn tour-prev" id="tour-prev" onclick="__tourPrev()" aria-label="Previous">&#8592; Prev</button>'+
+          '<button class="tour-nav-btn tour-next" id="tour-next" onclick="__tourNext()" aria-label="Next">Next &#8594;</button>'+
+        '</div>'+
+      '</div>'+
+      '<button class="tour-skip" onclick="endTour()">Skip tour &times;</button>';
+    overlay.appendChild(tipEl);
+    document.body.appendChild(overlay);
+
+    overlay.addEventListener('click',function(e){if(e.target===overlay)endTour();});
+    document.addEventListener('keydown',function(e){
+      if(!active)return;
+      if(e.key==='Escape')endTour();
+      if(e.key==='ArrowRight'||e.key==='Enter')__tourNext();
+      if(e.key==='ArrowLeft')__tourPrev();
+    });
+
+    renderDots();
+    var seen=localStorage.getItem(TOUR_KEY);
+    if(!seen)setTimeout(function(){startTour();},1500);
+  }
+
+  function renderDots(){
+    var d=document.getElementById('tour-dots');
+    if(!d)return;
+    d.innerHTML=steps.map(function(_,i){
+      return'<div class="tour-dot'+(i===current?' active':'')+'" onclick="__tourGo('+i+')" tabindex="0" role="button" aria-label="Step '+(i+1)+'"></div>';
+    }).join('');
+  }
+
+  function spotlight(el){
+    if(!el)return;
+    var r=el.getBoundingClientRect(),p=10,rx=10;
+    var x=r.left-p,y=r.top-p,w=r.width+p*2,h=r.height+p*2;
+    var hole=document.getElementById('tour-hole');
+    var glow=document.getElementById('tour-glow');
+    if(hole){hole.setAttribute('x',x);hole.setAttribute('y',y);hole.setAttribute('width',w);hole.setAttribute('height',h);hole.setAttribute('rx',rx);}
+    if(glow){glow.setAttribute('x',x);glow.setAttribute('y',y);glow.setAttribute('width',w);glow.setAttribute('height',h);glow.setAttribute('rx',rx);}
+    el.scrollIntoView({behavior:'smooth',block:'nearest',inline:'nearest'});
+  }
+
+  function positionTip(el,side){
+    if(!tipEl||!el)return;
+    tipEl.className='';
+    var r=el.getBoundingClientRect();
+    var tw=tipEl.offsetWidth||320,th=tipEl.offsetHeight||220;
+    var vw=window.innerWidth,vh=window.innerHeight,m=16;
+    var top,left,arrow;
+    if(side==='bottom'&&r.bottom+th+m<vh){top=r.bottom+m;left=r.left;arrow='top';}
+    else if(side==='top'&&r.top-th-m>0){top=r.top-th-m;left=r.left;arrow='bottom';}
+    else if(side==='right'&&r.right+tw+m<vw){top=r.top;left=r.right+m;arrow='left';}
+    else if(side==='left'&&r.left-tw-m>0){top=r.top;left=r.left-tw-m;arrow='right';}
+    else{top=Math.min(r.bottom+m,vh-th-m);left=r.left;arrow='top';}
+    left=Math.max(m,Math.min(left,vw-tw-m));
+    top=Math.max(m+56,Math.min(top,vh-th-m));
+    tipEl.style.top=top+'px';tipEl.style.left=left+'px';
+    tipEl.classList.add('arrow-'+arrow);
+  }
+
+  function renderStep(idx){
+    if(idx<0||idx>=steps.length)return;
+    current=idx;
+    var step=steps[idx],total=steps.length;
+    var el=step.sel?document.querySelector(step.sel):null;
+    document.getElementById('tour-slbl').textContent='Step '+(idx+1)+' of '+total;
+    document.getElementById('tour-ttl').textContent=step.title||'';
+    document.getElementById('tour-tbdy').textContent=step.body||'';
+    var pf=document.getElementById('tour-pfill');
+    if(pf)pf.style.width=Math.round(((idx+1)/total)*100)+'%';
+    var prev=document.getElementById('tour-prev');
+    var next=document.getElementById('tour-next');
+    if(prev)prev.style.display=idx===0?'none':'';
+    if(next)next.textContent=idx===total-1?'Finish \u2713':'Next \u2192';
+    document.querySelectorAll('.tour-dot').forEach(function(d,i){d.classList.toggle('active',i===idx);});
+    if(el){
+      spotlight(el);
+      setTimeout(function(){positionTip(el,step.tip||'bottom');},80);
+    }else{
+      var hole=document.getElementById('tour-hole');
+      if(hole){hole.setAttribute('width','0');hole.setAttribute('height','0');}
+      tipEl.style.top='50%';tipEl.style.left='50%';
+      tipEl.style.transform='translate(-50%,-50%)';
+    }
+  }
+
+  window.__tourGo=function(i){if(active)renderStep(i);};
+  window.__tourNext=function(){if(!active)return;if(current>=steps.length-1){endTour();return;}renderStep(current+1);};
+  window.__tourPrev=function(){if(active&&current>0)renderStep(current-1);};
+
+  window.startTour=function(){
+    if(!steps.length)return;
+    active=true;current=0;
+    overlay.classList.add('active');
+    document.body.style.overflow='hidden';
+    renderStep(0);
+  };
+
+  window.endTour=function(){
+    active=false;
+    if(overlay)overlay.classList.remove('active');
+    document.body.style.overflow='';
+    localStorage.setItem(TOUR_KEY,'1');
+  };
+
+  window.resetTour=function(){localStorage.removeItem(TOUR_KEY);};
+
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',init);
+  }else{
+    setTimeout(init,0);
+  }
+})();
+
+</script>
 </body>
 </html>>
 
@@ -583,4 +752,7 @@ body{min-height:100dvh;overflow:auto}
 .stat-card{background:var(--bg-elevated);border:1px solid var(--border);border-radius:var(--r-md);padding:.8rem;text-align:center}
 .stat-val{font-size:1.5rem;font-weight:800;color:var(--accent-light);letter-spacing:-.03em}
 .stat-lbl{font-size:.68rem;color:var(--text-3);margin-top:.15rem}
+
+/* Tour CSS */
+.tour-btn{display:inline-flex;align-items:center;gap:.3rem;padding:.26rem .6rem;border-radius:8px;font-size:.72rem;font-weight:700;cursor:pointer;border:1px solid rgba(59,130,246,.35);background:rgba(59,130,246,.10);color:#60a5fa;transition:all .18s;white-space:nowrap;flex-shrink:0}.tour-btn:hover{background:rgba(59,130,246,.20);border-color:rgba(59,130,246,.6)}.tour-btn svg{width:13px;height:13px}#tour-overlay{position:fixed;inset:0;z-index:9000;pointer-events:none;opacity:0;transition:opacity .3s}#tour-overlay.active{pointer-events:auto;opacity:1}#tour-svg{position:fixed;inset:0;width:100%;height:100%;z-index:9001;pointer-events:none}#tour-tip{position:fixed;z-index:9002;width:min(320px,calc(100vw - 2rem));background:#111b2e;border:1px solid rgba(59,130,246,.4);border-radius:16px;padding:1.2rem 1.35rem 1rem;box-shadow:0 24px 64px rgba(0,0,0,.7);animation:tourPop .22s cubic-bezier(.34,1.56,.64,1)}@keyframes tourPop{from{opacity:0;transform:scale(.9) translateY(6px)}to{opacity:1;transform:scale(1) translateY(0)}}.tour-step-label{font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#60a5fa;margin-bottom:.4rem}.tour-tip-title{font-size:.97rem;font-weight:800;color:#f0f4ff;margin-bottom:.35rem}.tour-tip-body{font-size:.82rem;color:#a8b8cf;line-height:1.6;margin-bottom:.9rem}.tour-footer{display:flex;align-items:center;gap:.5rem;margin-top:.35rem}.tour-dots{display:flex;gap:.3rem;flex:1}.tour-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.15);transition:all .2s;cursor:pointer}.tour-dot.active{background:#3b82f6;width:18px;border-radius:3px}.tour-nav{display:flex;gap:.4rem}.tour-nav-btn{display:inline-flex;align-items:center;gap:.3rem;padding:.32rem .75rem;border-radius:8px;font-size:.75rem;font-weight:700;cursor:pointer;border:none;transition:all .18s}.tour-prev{background:rgba(255,255,255,.07);color:#a8b8cf;border:1px solid rgba(255,255,255,.1)}.tour-prev:hover{background:rgba(255,255,255,.12)}.tour-next{background:#3b82f6;color:#fff}.tour-next:hover{background:#60a5fa}.tour-skip{background:none;border:none;font-size:.72rem;color:#5a6a82;cursor:pointer;padding:.3rem;display:block;margin-top:.4rem;transition:color .18s}.tour-skip:hover{color:#a8b8cf}.tour-progress{height:3px;background:rgba(255,255,255,.08);border-radius:2px;overflow:hidden;margin-bottom:.8rem}.tour-progress-fill{height:100%;background:linear-gradient(90deg,#3b82f6,#06b6d4);border-radius:2px;transition:width .3s}#tour-tip.arrow-top::before,#tour-tip.arrow-bottom::before,#tour-tip.arrow-left::before,#tour-tip.arrow-right::before{content:'';position:absolute;width:10px;height:10px;background:#111b2e;border:1px solid rgba(59,130,246,.4);transform:rotate(45deg)}#tour-tip.arrow-top::before{top:-6px;left:24px;border-right:none;border-bottom:none}#tour-tip.arrow-bottom::before{bottom:-6px;left:24px;border-left:none;border-top:none}#tour-tip.arrow-left::before{left:-6px;top:20px;border-right:none;border-top:none}#tour-tip.arrow-right::before{right:-6px;top:20px;border-left:none;border-bottom:none}
 </style>
