@@ -1,4 +1,8 @@
-﻿/*
+/ads.txt
+  Content-Type: text/plain
+  Cache-Control: public, max-age=86400
+
+/*
   X-Frame-Options: SAMEORIGIN
   X-Content-Type-Options: nosniff
   Cache-Control: public, max-age=0, must-revalidate
