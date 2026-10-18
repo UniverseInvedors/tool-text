@@ -129,6 +129,9 @@ body{min-height:100dvh;overflow:auto}
 
 /* Tour CSS */
 .tour-btn{display:inline-flex;align-items:center;gap:.3rem;padding:.26rem .6rem;border-radius:8px;font-size:.72rem;font-weight:700;cursor:pointer;border:1px solid rgba(59,130,246,.35);background:rgba(59,130,246,.10);color:#60a5fa;transition:all .18s;white-space:nowrap;flex-shrink:0}.tour-btn:hover{background:rgba(59,130,246,.20);border-color:rgba(59,130,246,.6)}.tour-btn svg{width:13px;height:13px}#tour-overlay{position:fixed;inset:0;z-index:9000;pointer-events:none;opacity:0;transition:opacity .3s}#tour-overlay.active{pointer-events:auto;opacity:1}#tour-svg{position:fixed;inset:0;width:100%;height:100%;z-index:9001;pointer-events:none}#tour-tip{position:fixed;z-index:9002;width:min(320px,calc(100vw - 2rem));background:#111b2e;border:1px solid rgba(59,130,246,.4);border-radius:16px;padding:1.2rem 1.35rem 1rem;box-shadow:0 24px 64px rgba(0,0,0,.7);animation:tourPop .22s cubic-bezier(.34,1.56,.64,1)}@keyframes tourPop{from{opacity:0;transform:scale(.9) translateY(6px)}to{opacity:1;transform:scale(1) translateY(0)}}.tour-step-label{font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#60a5fa;margin-bottom:.4rem}.tour-tip-title{font-size:.97rem;font-weight:800;color:#f0f4ff;margin-bottom:.35rem}.tour-tip-body{font-size:.82rem;color:#a8b8cf;line-height:1.6;margin-bottom:.9rem}.tour-footer{display:flex;align-items:center;gap:.5rem;margin-top:.35rem}.tour-dots{display:flex;gap:.3rem;flex:1}.tour-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.15);transition:all .2s;cursor:pointer}.tour-dot.active{background:#3b82f6;width:18px;border-radius:3px}.tour-nav{display:flex;gap:.4rem}.tour-nav-btn{display:inline-flex;align-items:center;gap:.3rem;padding:.32rem .75rem;border-radius:8px;font-size:.75rem;font-weight:700;cursor:pointer;border:none;transition:all .18s}.tour-prev{background:rgba(255,255,255,.07);color:#a8b8cf;border:1px solid rgba(255,255,255,.1)}.tour-prev:hover{background:rgba(255,255,255,.12)}.tour-next{background:#3b82f6;color:#fff}.tour-next:hover{background:#60a5fa}.tour-skip{background:none;border:none;font-size:.72rem;color:#5a6a82;cursor:pointer;padding:.3rem;display:block;margin-top:.4rem;transition:color .18s}.tour-skip:hover{color:#a8b8cf}.tour-progress{height:3px;background:rgba(255,255,255,.08);border-radius:2px;overflow:hidden;margin-bottom:.8rem}.tour-progress-fill{height:100%;background:linear-gradient(90deg,#3b82f6,#06b6d4);border-radius:2px;transition:width .3s}#tour-tip.arrow-top::before,#tour-tip.arrow-bottom::before,#tour-tip.arrow-left::before,#tour-tip.arrow-right::before{content:'';position:absolute;width:10px;height:10px;background:#111b2e;border:1px solid rgba(59,130,246,.4);transform:rotate(45deg)}#tour-tip.arrow-top::before{top:-6px;left:24px;border-right:none;border-bottom:none}#tour-tip.arrow-bottom::before{bottom:-6px;left:24px;border-left:none;border-top:none}#tour-tip.arrow-left::before{left:-6px;top:20px;border-right:none;border-top:none}#tour-tip.arrow-right::before{right:-6px;top:20px;border-left:none;border-bottom:none}
+
+/* Back to Main Menu button */
+.back-btn{display:inline-flex;align-items:center;gap:.35rem;padding:.32rem .8rem;border-radius:var(--r-md,8px);font-size:.75rem;font-weight:600;color:var(--text-2,#a8b8cf);background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);text-decoration:none;transition:all .18s;white-space:nowrap;flex-shrink:0}.back-btn:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.18);color:var(--text-1,#f0f4ff);transform:translateX(-2px)}.back-btn svg{flex-shrink:0}
 </style>
 </style>
 </head>
@@ -144,6 +147,11 @@ body{min-height:100dvh;overflow:auto}
     </div>
   </a>
   <div class="topbar-sep"></div>
+  <a href="https://universeinvedors.tech" class="back-btn" aria-label="Back to Universe Invedors main site">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><polyline points="15 18 9 12 15 6"/></svg>
+    Main Menu
+  </a>
+
   <div class="etabs">
     <button class="et active" id="et-count" onclick="setPanel('count')">Counter</button>
     <button class="et" id="et-case" onclick="setPanel('case')">Case</button>
@@ -793,4 +801,5 @@ window.__TOUR_STEPS__ = [{sel:".topbar-logo",title:"Welcome to Text Tools",body:
 </script>
 </body>
 
+<!-- v20261018065049 -->
 </html>
